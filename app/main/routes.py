@@ -218,4 +218,6 @@ def notifications():
 @bp.route('/post/<post_id>')
 @login_required
 def post_detail(post_id):
-    return render_template('post_detail.html', title=_('Post'), post=Post.query.filter_by(id=post_id).first())
+    post = Post.query.filter_by(id=post_id).first()
+    comments = {"body":"comment1"}#place holder
+    return render_template('post_detail.html', title=_('Post'), post=post, comments=comments)

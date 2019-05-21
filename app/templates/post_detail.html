@@ -2,4 +2,7 @@
 
 {% block app_content %}
     {% include '_post.html' %}
+    {% for comment in comments %}
+        {% include '_comment.html' %}
+    {% endfor %}
 {% endblock %}
