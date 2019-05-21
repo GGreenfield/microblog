@@ -123,10 +123,9 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def avatar(self, size):
+    def avatar(self):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
-            digest, size)
+        return 'https://avatars.dicebear.com/v2/identicon/{}.svg'.format(digest)
 
     def follow(self, user):
         if not self.is_following(user):
