@@ -5,8 +5,8 @@ from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from guess_language import guess_language
 from app import db
-from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm
-from app.models import User, Post, Message, Notification
+from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm, CommentForm
+from app.models import User, Post, Message, Notification, Comment
 from app.translate import translate
 from app.main import bp
 
@@ -214,3 +214,8 @@ def notifications():
         'data': n.get_data(),
         'timestamp': n.timestamp
     } for n in notifications])
+
+@bp.route('/post/<post_id>')
+@login_required
+def post_detail(post_id):
+    return render_template('post_detail.html', title=_('Post'), post=Post.query.filter_by(id=post_id).first())

@@ -28,5 +28,10 @@
                 </span>
                 {% endif %}
             </td>
+            {% if "/post/" not in request.path %}
+            <td>
+                <a href="{{ url_for('main.post_detail', post_id=post.id) }}">comments</a>
+            </td>
+            {% endif %}
         </tr>
     </table>
