@@ -215,9 +215,30 @@ def notifications():
         'timestamp': n.timestamp
     } for n in notifications])
 
-@bp.route('/post/<post_id>')
+@bp.route('/post/<post_id>', methods=['GET', 'POST'])
 @login_required
 def post_detail(post_id):
     post = Post.query.filter_by(id=post_id).first()
-    comments = {"body":"comment1"}#place holder
-    return render_template('post_detail.html', title=_('Post'), post=post, comments=comments)
+    comments = Comment.query.filter_by(post_id=post.id).all()
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(body=form.comment.data, author=current_user, post=post)
+        db.session.add(comment)
+        db.session.commit()
+        flash(_('Your comment has been sent.'))
+        return redirect(url_for('main.post_detail', post_id=post.id))
+    return render_template('post_detail.html', title=_('Post'), post=post, comments=comments, form=form)
+
+@bp.route('/post/<post_id>/comment', methods=['GET', 'POST'])
+@login_required
+def post_comment():
+    post = Post.query.filter_by(id=post_id).first()
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(body=form.message.data, author=current_user, post=post)
+        db.session.add(comment)
+        db.session.commit()
+        flash(_('Your comment has been sent.'))
+        return redirect(url_for('main.post_detail', post_id=post.id))
+    return render_template('main/post_comment.html', title=_('Post Comment'),
+                           form=form)

@@ -4,10 +4,6 @@ This is an example application featured in my [Flask Mega-Tutorial](https://blog
 
 ## Planned extensions:
 - tranlations and search not implemented due to needing CC for free tier
-- add Comment model
-  - apply migration
-  - make form
-  - add route
 - add suite of functional tests using Selenium
 
 
@@ -15,3 +11,7 @@ deploy flow:
   -commit and push to develop
   -merge to master
   -push to heroku master
+
+## Extensions implemented
+- Added comments to posts
+- changed avatar provider to dicebear
